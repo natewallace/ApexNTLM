@@ -12,8 +12,7 @@ public class DESCryptTest {
         integer[] plainText = new integer[] { 72, 73, 32, 84, 72, 69, 82, 69 };
         integer[] keyBytes = new integer[] { 0, 1, 2, 3, 4, 5, 6, 7 };
         
-        des.init(false, keyBytes);
-        integer[] result = des.encrypt(plainText);
+        integer[] result = des.encrypt(keyBytes, plainText);
         
         System.assertEquals(183, result[0], 'result[0] isn\'t 183.');
         System.assertEquals(106, result[1], 'result[1] isn\'t 106.');

@@ -1,4 +1,4 @@
-/*
+/**
  * Unit tests for the BitConverter class. 
  *
  * @author Nate Wallace
@@ -6,7 +6,7 @@
 @isTest
 private class BitConverterTest {
 
-    /*
+    /**
      * Test the DecodeBase64String method.
      */
     static testMethod void decodeBase64StringTest() {
@@ -66,7 +66,7 @@ private class BitConverterTest {
         }                                       
     }
 
-    /*
+    /**
      * Test the EncodeBase64String method.
      */
     static testMethod void encodeBase64StringTest() {
@@ -105,7 +105,7 @@ private class BitConverterTest {
         }
     }
     
-    /*
+    /**
      * Test the EncodeIntegerFromHex method.
      */
     static testMethod void encodeIntegerFromHexTest() {
@@ -126,7 +126,7 @@ private class BitConverterTest {
         }          
     } 
     
-    /*
+    /**
      * Test the EncodeUTF16String method.
      */
     static testMethod void encodeUTF16StringTest() {
@@ -142,7 +142,7 @@ private class BitConverterTest {
         System.assertEquals(0, result[7], 'result[7] != 0');
     }  
     
-    /*
+    /**
      * Test the EncodeUTF8String method.
      */
     static testMethod void encodeUTF8StringTest() {
@@ -154,14 +154,14 @@ private class BitConverterTest {
         System.assertEquals(116, result[3], 'result[4] != 116');        
     }     
       
-    /*
+    /**
      * Test the getIntegerComplement method.
      */
     static testMethod void getIntegerComplementTest() {
         System.assertEquals(-14, BitConverter.getIntegerComplement(13), '~13 should equal -14');
     }
     
-    /*
+    /**
      * Test the toUInt32 method.
      */
     static testMethod void toUInt32Test() {
@@ -169,7 +169,7 @@ private class BitConverterTest {
         System.assertEquals(1040, result, 'result isn\'t 1040');
     }
         
-    /*
+    /**
      * Test the toUInt16 method.
      */
     static testMethod void toUInt16Test() {
@@ -177,7 +177,7 @@ private class BitConverterTest {
         System.assertEquals(1040, result, 'result isn\'t 1040');
     }        
          
-    /*
+    /**
      * Test the getBytes method.
      */
     static testMethod void getBytesTest() {
@@ -189,7 +189,7 @@ private class BitConverterTest {
         System.assertEquals(116, blobTest[3], 'blobTest[3] isn\'t 116');
     }
     
-    /*
+    /**
      * Test the getBytesForUInt64 method.
      */
     static testMethod void getBytesForUInt64Test() {
@@ -206,7 +206,7 @@ private class BitConverterTest {
         System.assertEquals(0, result[7], 'result[7] != 0');
     }    
     
-    /*
+    /**
      * Test the getBytesForUInt32 method.
      */
     static testMethod void getBytesForUInt32Test() {
@@ -219,7 +219,7 @@ private class BitConverterTest {
         System.assertEquals(0, result[3], 'result[3] != 0');
     }   
     
-    /*
+    /**
      * Test the getBytesForUInt32 method.
      */
     static testMethod void getBytesForUInt16Test() {
@@ -230,7 +230,7 @@ private class BitConverterTest {
         System.assertEquals(1, result[1], 'result[1] != 1');
     }    
     
-    /*
+    /**
      * Test the getBlob method.
      */
     static testMethod void getBlobTest() {
