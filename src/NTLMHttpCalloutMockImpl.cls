@@ -1,5 +1,5 @@
 @isTest
-global class GlobeHttpCalloutMockImpl implements HttpCalloutMock {
+global class NTLMHttpCalloutMockImpl implements HttpCalloutMock {
 	global HttpResponse respond(HTTPRequest req) {
 		// Create a fake response
 		HttpResponse res = new HttpResponse();
