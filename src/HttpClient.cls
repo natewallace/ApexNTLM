@@ -122,15 +122,16 @@ public class HttpClient {
     
     /*
      * Sends an HttpRequest and returns the response.
-     *
+     * 
      * @param request The request to send.  Note that only the Endpoint, Method, Compressed, and Body values are used.
+     * @param headers The headers to include in the request.
      * @return The response from the server.
      */
-    public HttpResponse send(HttpRequest request) {
-            
-        integer authStep = 0;
+    public HttpResponse send(HttpRequest request, Map<string, string> headers) {
+    	
+    	integer authStep = 0;
         
-        HttpRequest req = Clone(request);
+        HttpRequest req = Clone(request, headers);
         
         if (getIsPreAuthenticate()) {
             req.setHeader('Authorization', 'NTLM ' + mNtlm.getType1Message());
@@ -144,11 +145,22 @@ public class HttpClient {
         while (resp.getStatusCode() == 401) {
             if (authStep > 1)
                 return resp;
-            resp = handle401Response(resp, request, authStep);
+            resp = handle401Response(resp, request, headers, authStep);
             authStep++;
         }                   
         
-        return resp;        
+        return resp; 
+    }
+    
+    /*
+     * Sends an HttpRequest and returns the response.
+     *
+     * @param request The request to send.  Note that only the Endpoint, Method, Compressed, and Body values are used.
+     * @return The response from the server.
+     */
+    public HttpResponse send(HttpRequest request) {
+        
+        return send(request, null);        
     }
     
     /*
@@ -156,13 +168,14 @@ public class HttpClient {
      *
      * @param response The response that came back from the server with a 401.
      * @param request The original request.
+     * @param headers The headers for the original request.
      * @param authStep The current step we are on in the authorization sequence.
      * @return A new response from the server after sending out an appropriate NTLM message in response to the 401.
      */
-    private HttpResponse handle401Response(HttpResponse response, HttpRequest request, integer authStep) {  
+    private HttpResponse handle401Response(HttpResponse response, HttpRequest request, Map<string, string> headers, integer authStep) {  
 
         if (authStep == 0) {    // send initial NTLM type 1 message         
-            HttpRequest req = Clone(request);       
+            HttpRequest req = Clone(request, headers);       
             req.setHeader('Authorization', 'NTLM ' + mNtlm.getType1Message());
             req.setBody('');    
             return mHttp.send(req);
@@ -172,7 +185,7 @@ public class HttpClient {
             if (ntlmMessage == null || ntlmMessage == '')
                 return response; // Server didn't send message after we sent it our type 1 message so we give up.
                 
-            HttpRequest req = Clone(request);
+            HttpRequest req = Clone(request, headers);
             req.setHeader('Authorization', 'NTLM ' + mNtlm.getType3Message(ntlmMessage, getUser(), getPassword()));
             return mHttp.send(req);
         }
@@ -185,15 +198,20 @@ public class HttpClient {
      * Clones the given request.
      *
      * @param request The request to clone.
+     * @param headers The headers to include in the request.
      * @return The new object that is a clone of the request parameter.
      */
-    private HttpRequest Clone(HttpRequest request) {
+    private HttpRequest Clone(HttpRequest request, Map<string, string> headers) {
         HttpRequest req = new HttpRequest();
         req.setEndpoint(request.getEndpoint());
         req.setMethod(request.getMethod());
         req.setCompressed(request.getCompressed());              
         
         req.setBodyAsBlob(request.getBodyAsBlob());
+        
+        if (headers != null)
+        	for (string key : headers.keySet())
+        		req.setHeader(key, headers.get(key));
         
         return req;
     }
